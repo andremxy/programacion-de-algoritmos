@@ -1,0 +1,118 @@
+aux = 1
+pisos = []
+for i in range(0, 10):
+    pisos.append(1)
+
+matriz = []
+for i in range(10):  # número de pisos
+    matriz.append([])
+    for j in range(4):  # número de tips x piso
+        matriz[i].append(1)
+
+
+tipos_a = 0
+count_a = 0
+tipos_b = 0
+count_b = 0
+tipos_c = 0
+count_c = 0
+tipos_d = 0
+count_d = 0
+run = []
+
+
+def mostrar_ventas(count_a, count_b, count_c, count_d, tipos_a, tipos_b, tipos_c, tipos_d):
+    print("Tipo de Departamento\t Cantidad\t Total")
+    print("Tipo A 3.800 UF \t\t", count_a, "\t", tipos_a, "UF")
+    print("Tipo B 3.000 UF \t\t", count_b, "\t", tipos_b, "UF")
+    print("Tipo C 2.800 UF \t\t", count_c, "\t", tipos_c, "UF")
+    print("Tipo D 3.500 UF \t\t", count_d, "\t", tipos_d, "UF")
+
+
+def muestra_run(run):
+    for i in range(len(run)):
+        print("Comprador ", i+1, ":", run[i])
+
+
+def muestra_pisos(matriz):
+    print("Piso\t\t\tTIPO")
+    print("\t\tA\tB\tC\tD")
+    for i in range(9, -1, -1):
+        print(i+1, "", end="\t\t")
+        for j in range(4):
+            if matriz[i][j] == 1:
+                print(" \t", end="")
+            else:
+                print("X\t", end="")
+        print()
+
+
+def devuelve_run_value(run_value):
+    run_value = run_value.split("-")
+    run_value = run_value[0]
+    aux_value = ""
+    for i in range(len(run_value)):
+        if run_value[i] != '.':
+            aux_value = aux_value + run_value[i]
+    return int(aux_value)
+
+
+while aux:
+    print("1.- Comprar departamento")
+    print("2.- Mostrar departamentos disponibles")
+    print("3.- Ver listado de compradores")
+    print("4.- Mostrar ganancias totales")
+    print("5.- Salir")
+    opc = int(input("Por favor ingrese una opción: "))
+    while opc > 5 or opc < 1:
+        opc = int(input("Por favor ingrese una opción: "))
+    if opc == 1:
+        run_value = input("Ingrese su RUN Ejm: 12.345.678-9: ")
+        aux_value = devuelve_run_value(run_value)
+        run.append(aux_value)
+        muestra_pisos(matriz)
+        comprado = 0
+        while comprado == 0:
+            espacio = input(
+                "Ingrese el departamento y el piso (todo junto. ejm: A9): ")
+            pos = -1
+            if espacio[0] == "A":
+                pos = 0
+            elif espacio[0] == "B":
+                pos = 1
+            elif espacio[0] == "C":
+                pos = 2
+            elif espacio[0] == "D":
+                pos = 3
+            if(matriz[int(espacio[1:])-1][pos] == 1):
+                if espacio[0] == "A":
+                    tipos_a += 3800
+                    count_a += 1
+                elif espacio[0] == "B":
+                    tipos_b += 3000
+                    count_b += 1
+                elif espacio[0] == "C":
+                    tipos_c += 2800
+                    count_c += 1
+                elif espacio[0] == "D":
+                    tipos_d += 3500
+                    count_d += 1
+                comprado = 1
+                matriz[int(espacio[1:])-1][pos] = 0
+                print("¡Departamento Comprado!")
+            else:
+                print("No está disponible")
+    if opc == 2:
+        muestra_pisos(matriz)
+    if opc == 3:
+        run = sorted(run)
+        muestra_run(run)
+    if opc == 4:
+        mostrar_ventas(count_a, count_b, count_c, count_d,
+                       tipos_a, tipos_b, tipos_c, tipos_d)
+        print
+    if opc == 5:
+        input("presione enter para salir")
+        print("Andrés ~ 10/07/2023")
+        print("Saliendo del programa...")
+        aux = 0
